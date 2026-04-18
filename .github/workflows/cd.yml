@@ -17,7 +17,7 @@ env:
   ECS_SERVICE_BACKEND: naqlaai-prod-backend
   ECS_SERVICE_FRONTEND: naqlaai-prod-frontend
   TERRAFORM_DIR: infra
-  TF_STATE_KEY: prod/terraform.tfstate
+  TF_STATE_KEY: prod-clean/terraform.tfstate
 
 jobs:
   quality-gates:
