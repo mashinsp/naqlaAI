@@ -17,6 +17,7 @@ env:
   ECS_SERVICE_BACKEND: naqlaai-prod-backend
   ECS_SERVICE_FRONTEND: naqlaai-prod-frontend
   TERRAFORM_DIR: infra
+  TF_STATE_KEY: prod/terraform.tfstate
 
 jobs:
   quality-gates:
@@ -63,13 +64,23 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_GITHUB_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+          role-duration-seconds: 7200
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform init
         working-directory: ${{ env.TERRAFORM_DIR }}
-        run: terraform init
+        env:
+          TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+          TF_LOCK_TABLE: ${{ secrets.TF_LOCK_TABLE }}
+        run: >
+          terraform init -reconfigure
+          -backend-config="bucket=${TF_STATE_BUCKET}"
+          -backend-config="key=${{ env.TF_STATE_KEY }}"
+          -backend-config="region=${{ env.AWS_REGION }}"
+          -backend-config="dynamodb_table=${TF_LOCK_TABLE}"
+          -backend-config="encrypt=true"
 
       - name: Terraform plan
         working-directory: ${{ env.TERRAFORM_DIR }}
@@ -129,6 +140,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_GITHUB_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+          role-duration-seconds: 7200
 
       - name: Force ECS deployments
         run: |
