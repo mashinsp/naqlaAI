@@ -5,7 +5,7 @@ aws_region   = "eu-central-1"
 db_multi_az            = true
 frontend_desired_count = 2
 backend_desired_count  = 2
-create_dns_records     = true
+create_dns_records     = false
 redis_node_type        = "cache.t4g.small"
 image_tag              = "latest"
 
