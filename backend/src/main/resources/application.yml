@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/naqlaai}
+    username: ${DB_USERNAME:naqlaai}
+    password: ${DB_PASSWORD:naqlaai}
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+
+app:
+  jwt:
+    secret: ${JWT_SECRET_BASE64:VGhpc0lzQURldmVsb3BtZW50U2VjcmV0S2V5VGhhdElzQXRMZWFzdDY0Qnl0ZXNMb25nISE=}
+    expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+  ai:
+    openai:
+      enabled: ${AI_OPENAI_ENABLED:false}
+      api-key: ${OPENAI_API_KEY:}
+      model: ${AI_OPENAI_MODEL:gpt-4o-mini}
+      temperature: ${AI_OPENAI_TEMPERATURE:0.1}
+    memory:
+      ttl-minutes: ${AI_MEMORY_TTL_MINUTES:180}
+    cache:
+      ttl-minutes: ${AI_CACHE_TTL_MINUTES:15}
+  monitor:
+    enabled: ${AI_MONITOR_ENABLED:true}
+    interval-ms: ${AI_MONITOR_INTERVAL_MS:300000}
+  secrets:
+    enabled: ${AWS_SECRETS_ENABLED:false}
+    secret-name: ${AWS_SECRETS_NAME:naqlaai/backend}

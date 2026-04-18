@@ -1,0 +1,17 @@
+infra-output.txt
+
+# Terraform local/cache artifacts
+infra/.terraform/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local env files
+backend/.env
+frontend/.env

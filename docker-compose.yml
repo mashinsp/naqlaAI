@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: naqlaai-postgres
+    environment:
+      POSTGRES_DB: naqlaai
+      POSTGRES_USER: naqlaai
+      POSTGRES_PASSWORD: naqlaai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U naqlaai -d naqlaai"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: naqlaai-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: naqlaai-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      SERVER_PORT: 8080
+      DB_URL: jdbc:postgresql://postgres:5432/naqlaai
+      DB_USERNAME: naqlaai
+      DB_PASSWORD: naqlaai
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET_BASE64: VGhpc0lzQURldmVsb3BtZW50U2VjcmV0S2V5VGhhdElzQXRMZWFzdDY0Qnl0ZXNMb25nISE=
+      JWT_EXPIRATION_MS: 3600000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: naqlaai-frontend
+    environment:
+      API_BASE_URL: http://backend:8080
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+  redisdata:

@@ -1,0 +1,28 @@
+project_name = "naqlaai"
+environment  = "dev"
+aws_region   = "eu-central-1"
+
+vpc_cidr             = "10.40.0.0/16"
+public_subnet_cidrs  = ["10.40.1.0/24", "10.40.2.0/24"]
+private_subnet_cidrs = ["10.40.11.0/24", "10.40.12.0/24"]
+azs                  = ["eu-central-1a", "eu-central-1b"]
+
+db_name     = "naqlaai"
+db_username = "naqlaai"
+db_multi_az = false
+
+redis_node_type = "cache.t4g.micro"
+
+image_tag = "latest"
+
+frontend_desired_count = 1
+backend_desired_count  = 1
+
+openai_model       = "gpt-4o-mini"
+openai_temperature = 0.1
+# openai_api_key = "replace-me"
+# jwt_secret_base64 = "replace-me"
+
+create_dns_records = false
+# domain_name    = "app.example.com"
+# hosted_zone_id = "Z123456789"
