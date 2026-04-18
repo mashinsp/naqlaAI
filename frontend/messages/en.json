@@ -1,0 +1,49 @@
+{
+  "shell": {
+    "brand": "NaqlaAI",
+    "title": "Logistics Control Tower",
+    "nav": {
+      "dashboard": "Dashboard",
+      "shipments": "Shipments",
+      "map": "Map",
+      "routes": "Routes",
+      "drivers": "Drivers",
+      "alerts": "Alerts",
+      "events": "Live Events"
+    },
+    "ai": {
+      "trigger": "Ask NaqlaAI",
+      "title": "NaqlaAI Command Bar",
+      "subtitle": "Ask in English or Arabic for instant logistics insights.",
+      "placeholder": "Type your logistics question...",
+      "hint": "Tip: Press Esc to close quickly",
+      "submit": "Run Query",
+      "loading": "Thinking...",
+      "empty": "Start with a query and NaqlaAI will return a quick answer.",
+      "error": "Unable to complete the request right now.",
+      "examples": {
+        "delayed": "Show delayed shipments in Riyadh",
+        "routes": "Give route summary for today",
+        "drivers": "Which drivers have low on-time rate?"
+      }
+    }
+  },
+  "login": {
+    "title": "Sign in to NaqlaAI",
+    "subtitle": "Use one of the seeded test accounts to access the dashboard.",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign in",
+    "loading": "Signing in...",
+    "invalid": "Invalid username or password."
+  },
+  "home": {
+    "headline": "Saudi supply chain visibility, in real time",
+    "description": "This baseline dashboard shell supports English/Arabic locales, RTL layout, and role-based sections for future data integration.",
+    "cards": {
+      "onTime": "On-Time Rate",
+      "activeRoutes": "Active Routes",
+      "delayed": "Delayed Shipments"
+    }
+  }
+}
