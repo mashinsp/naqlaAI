@@ -19,6 +19,7 @@ env:
   TERRAFORM_DIR: infra
   TF_STATE_KEY: prod-clean/terraform.tfstate
 
+
 jobs:
   quality-gates:
     runs-on: ubuntu-latest
