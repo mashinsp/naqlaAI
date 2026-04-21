@@ -80,7 +80,7 @@ resource "aws_lb_listener_rule" "backend_api" {
 
   condition {
     path_pattern {
-      values = ["/api/*", "/actuator/*", "/api-docs*", "/swagger-ui*"]
+      values = ["/api/v1/*", "/actuator/*", "/api-docs*", "/swagger-ui*"]
     }
   }
 }
@@ -117,6 +117,25 @@ resource "aws_iam_role" "task_role" {
       }
       Action = "sts:AssumeRole"
     }]
+  })
+}
+
+resource "aws_iam_role_policy" "task_role_secrets" {
+  name = "${var.name_prefix}-ecs-task-secrets"
+  role = aws_iam_role.task_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = "*"
+      }
+    ]
   })
 }
 
@@ -202,6 +221,7 @@ resource "aws_ecs_service" "backend" {
   task_definition = aws_ecs_task_definition.backend.arn
   launch_type     = "FARGATE"
   desired_count   = var.desired_count_backend
+  health_check_grace_period_seconds = 180
 
   network_configuration {
     subnets          = var.public_subnet_ids
@@ -224,6 +244,7 @@ resource "aws_ecs_service" "frontend" {
   task_definition = aws_ecs_task_definition.frontend.arn
   launch_type     = "FARGATE"
   desired_count   = var.desired_count_frontend
+  health_check_grace_period_seconds = 180
 
   network_configuration {
     subnets          = var.public_subnet_ids

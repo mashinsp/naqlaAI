@@ -77,6 +77,8 @@ module "ecs" {
 
   backend_env = {
     SERVER_PORT         = "8080"
+    AWS_REGION          = var.aws_region
+    AWS_DEFAULT_REGION  = var.aws_region
     DB_URL              = "jdbc:postgresql://${module.rds.endpoint}:5432/${var.db_name}"
     DB_USERNAME         = module.rds.username
     DB_PASSWORD         = module.rds.password
@@ -84,7 +86,8 @@ module "ecs" {
     REDIS_PORT          = "6379"
     JWT_EXPIRATION_MS   = "3600000"
     AI_OPENAI_ENABLED   = "true"
-    AWS_SECRETS_ENABLED = "false"
+    AWS_SECRETS_ENABLED = "true"
+    AWS_SECRETS_NAME    = "${local.name_prefix}/backend"
   }
 
   frontend_env = {
