@@ -38,7 +38,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-8 text-foreground sm:px-8">
+    <div className="min-h-screen bg-slate-100 px-4 py-8 text-foreground sm:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center">
         <div className="grid w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xl shadow-slate-300/30 lg:grid-cols-[1.25fr_0.85fr]">
           <div className="relative hidden min-h-[560px] bg-slate-100 lg:block">
