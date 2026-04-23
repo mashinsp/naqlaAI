@@ -74,5 +74,5 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(ar|en)/:path*"],
+  matcher: ["/(ar|en)/:path*"],
 };
