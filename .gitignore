@@ -15,3 +15,4 @@ override.tf.json
 # Local env files
 backend/.env
 frontend/.env
+deploy/ec2/.env.ec2
