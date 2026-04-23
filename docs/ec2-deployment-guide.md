@@ -123,6 +123,34 @@ Then configure host-level Nginx or extend container config with cert volume + 44
 - Create AWS Budget alarms at `$5`, `$10`, `$15`
 - Stop instance when not demoing (if acceptable for your availability)
 
+## 8) If instance crashes during deploy
+
+On tiny instances (especially 1GB RAM), Docker builds can trigger OOM and make the VM unresponsive.
+
+This repo now includes protections:
+
+- `deploy/ec2/setup-ec2.sh` creates a persistent 4GB swap file
+- `deploy/ec2/deploy.sh` builds backend and frontend sequentially
+- frontend Docker build uses lower Node memory (`NODE_OPTIONS=--max-old-space-size=512`)
+
+If you already provisioned the instance before these changes, rerun setup:
+
+```bash
+cd /opt/naqlaAI
+git pull --ff-only origin main
+sudo bash deploy/ec2/setup-ec2.sh
+free -h
+swapon --show
+```
+
+Then deploy again:
+
+```bash
+./deploy/ec2/deploy.sh
+```
+
+If crashes still happen, move from `t3.micro` to `t3.small` (recommended minimum for this stack).
+
 ## Important notes
 
 - This architecture is optimized for low-cost showcase, not high-availability production.

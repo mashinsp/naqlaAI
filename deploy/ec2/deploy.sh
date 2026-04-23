@@ -11,7 +11,15 @@ if [[ ! -f "$EC2_ENV_FILE" ]]; then
 fi
 
 echo "Starting EC2 deployment from $ROOT_DIR"
-docker compose --env-file "$EC2_ENV_FILE" -f "$COMPOSE_FILE" up -d --build --remove-orphans
+
+echo "Docker memory before build:"
+free -h
+
+# Build sequentially to reduce peak memory pressure on small EC2 instances.
+docker compose --env-file "$EC2_ENV_FILE" -f "$COMPOSE_FILE" build backend
+docker compose --env-file "$EC2_ENV_FILE" -f "$COMPOSE_FILE" build frontend
+
+docker compose --env-file "$EC2_ENV_FILE" -f "$COMPOSE_FILE" up -d --remove-orphans
 docker image prune -f
 
 echo "Deployment finished. Current containers:"

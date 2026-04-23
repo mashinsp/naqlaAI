@@ -23,6 +23,21 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 systemctl enable docker
 systemctl start docker
 
+# Add swap to prevent OOM kills on small instances.
+# This is especially important when building frontend/backend Docker images.
+if ! swapon --show | grep -q "/swapfile"; then
+  fallocate -l 4G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=4096
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo "/swapfile none swap sw 0 0" >> /etc/fstab
+fi
+
+sysctl -w vm.swappiness=10
+if ! grep -q "vm.swappiness=10" /etc/sysctl.conf; then
+  echo "vm.swappiness=10" >> /etc/sysctl.conf
+fi
+
 echo "Docker installed successfully."
 echo "Optional: add your user to docker group and relogin:"
 echo "usermod -aG docker <your-username>"
