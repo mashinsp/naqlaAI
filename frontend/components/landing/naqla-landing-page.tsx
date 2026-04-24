@@ -149,8 +149,10 @@ export function NaqlaLandingPage({ isAuthenticated = false, locale = "en" }: Naq
   useEffect(() => {
     const navigationEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
     if (navigationEntry?.type === "back_forward") {
-      setShowLoader(false);
-      setLoaderCount(100);
+      requestAnimationFrame(() => {
+        setShowLoader(false);
+        setLoaderCount(100);
+      });
     }
   }, []);
 
@@ -159,7 +161,6 @@ export function NaqlaLandingPage({ isAuthenticated = false, locale = "en" }: Naq
     let frameId = 0;
     let revealTimeout = 0;
     const startedAt = performance.now();
-    setLoaderCount(0);
 
     const animate = (now: number) => {
       const elapsed = now - startedAt;

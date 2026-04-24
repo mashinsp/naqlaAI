@@ -17,14 +17,9 @@ export function TypingText() {
   const [phraseIdx, setPhraseIdx] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    if (isInView) setStarted(true);
-  }, [isInView]);
-
-  useEffect(() => {
-    if (!started) return;
+    if (!isInView) return;
     const current = PHRASES[phraseIdx];
     let timeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -35,14 +30,16 @@ export function TypingText() {
     } else if (deleting && displayed.length > 0) {
       timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 22);
     } else if (deleting && displayed.length === 0) {
-      setDeleting(false);
-      setPhraseIdx((i) => (i + 1) % PHRASES.length);
+      timeout = setTimeout(() => {
+        setDeleting(false);
+        setPhraseIdx((i) => (i + 1) % PHRASES.length);
+      }, 0);
     }
 
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [started, displayed, deleting, phraseIdx]);
+  }, [isInView, displayed, deleting, phraseIdx]);
 
   return (
     <div ref={ref} className="flex items-baseline gap-0">

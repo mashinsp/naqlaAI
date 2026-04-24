@@ -75,7 +75,6 @@ function OperationsCard({ index }: { index: number }) {
   );
 }
 
-const BAR_COUNT = 12;
 const INITIAL_BARS = [0.34, 0.61, 0.33, 0.66, 0.92, 0.97, 0.68, 0.42, 0.6, 0.5, 0.56, 0.48];
 function IntelligenceCard({ index }: { index: number }) {
   const ref = useRef<HTMLDivElement>(null);
