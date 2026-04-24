@@ -10,7 +10,6 @@ Mark each task complete in order. Do not skip sequence unless explicitly noted.
 - [ ] If blocked, add blocker details and move to the next non-blocking task.
 - [ ] At end of each day, update `Progress Snapshot`.
 
----
 
 ## Progress Snapshot
 
