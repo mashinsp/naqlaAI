@@ -5,5 +5,5 @@ import { AUTH_COOKIE } from "@/lib/constants";
 export default async function Home() {
   const cookieStore = await cookies();
   const isAuthenticated = Boolean(cookieStore.get(AUTH_COOKIE)?.value);
-  return <NaqlaLandingPage isAuthenticated={isAuthenticated} />;
+  return <NaqlaLandingPage isAuthenticated={isAuthenticated} locale="en" />;
 }

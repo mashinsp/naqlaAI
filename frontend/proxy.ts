@@ -43,8 +43,9 @@ export default function proxy(request: NextRequest) {
   }
 
   const locale = localeMatch[1];
-  const localPath = localeMatch[2] || "/";
-  const isPublic = localPath === "/login";
+  const rawLocalPath = localeMatch[2] || "/";
+  const localPath = rawLocalPath !== "/" ? rawLocalPath.replace(/\/+$/, "") : "/";
+  const isPublic = localPath === "/login" || localPath === "/";
 
   const token = request.cookies.get(AUTH_COOKIE)?.value;
   const payload = token ? decodePayload(token) : null;

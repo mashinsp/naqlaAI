@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
@@ -47,6 +48,7 @@ export default function LoginPage() {
               alt="Logistics warehouse operations"
               fill
               priority
+              sizes="(min-width: 1024px) 62vw, 0vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-r from-slate-900/25 via-slate-900/15 to-transparent" />
@@ -62,6 +64,12 @@ export default function LoginPage() {
 
           <div className="flex items-center justify-center bg-white px-6 py-10 sm:px-10">
             <form onSubmit={onSubmit} className="w-full max-w-sm space-y-5">
+              <Link
+                href={`/${params.locale}`}
+                className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+              >
+                Back to home
+              </Link>
               <div className="space-y-2">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">Welcome back</p>
                 <h1 className="text-3xl font-semibold tracking-tight text-slate-900">{t("title")}</h1>
