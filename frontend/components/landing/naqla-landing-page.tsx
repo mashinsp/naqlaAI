@@ -23,7 +23,7 @@ type Beat = {
 
 const FRAME_COUNT = 192;
 const INITIAL_FRAME_BUFFER = 28;
-const LOADER_DURATION_MS = 900;
+const LOADER_DURATION_MS = 2000;
 const BEATS: Beat[] = [
   {
     align: "center",
